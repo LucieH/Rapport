@@ -1,5 +1,26 @@
 \section{Analyse approfondie du cas}
-\subsection{Use-case}
-\subsection{Activities}
-\subsection{UML}
-\subsection{Séquence}
+Dans le cadre de la gestion de l'agence immobilière, nous avons pointé les grandes fonctionnalités du système. Ces grandes fonctionnalités représentent les interactions des acteurs avec le système.
+Elles sont les suivantes :
+\begin{itemize}
+	\item la gestion d'un bien
+	\item la gestion d'une demande d'un client
+	\item l'ajout d'une personne
+	\item la planification des visites
+	\item la création de statistiques
+\end{itemize}
+Pour ces grandes fonctionnalités, nous avons réalisé un scénario précisant le fonctionnement du point de vue de l'agence. Les acteurs du système étant exclusivement le personnel de l'agence.
+Ces scénarios sont basés sur la perception du client.
+\subsection{La gestion d'un bien}
+Lorsqu'un propriétaire se présente à l'agence, il se rend auprès du service des enregistrements.
+Ce service commence par saisir les informations relatives à ce propriétaire.
+Ensuite, le système vérifie l'existence de ce propriétaire. S'il existe l'employé continue son travail en saisissant les informations relatives au bien. Sinon il commence par ajouter le propriétaire dans le système pour ensuite saisir les informations relatives au bien.
+
+Pour le bien, l'employé commence par saisir les informations sur le type de bien (maison, appartement, etc.), le mode d'offre (vente/location), le montant/loyer demandé et la superficie.
+À la suite de cela, le système détermine la classe standard à laquelle appartient le bien.
+Si aucune classe standard ne peut être associé, le système accepte tout de même le bien et le range dans une classe "en attente".
+Maintenant que le bien possède sa classe standard, l'employé peut saisir les informations relatives au bien selon les champs remplissables.
+Ces champs sont dépendants de la classe standard, car les informations nécessaires ne sont pas les mêmes selon le type du bien et le mode d'offre.
+\subsubsection{Use-case}
+\subsubsection{Activities}
+\subsubsection{UML}
+\subsubsection{Séquence}
