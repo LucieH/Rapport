@@ -1,1 +1,50 @@
 \section{Première analyse du cas}
+A la lecture des documents fournis par l'agence immobilière, nous avons pu réaliser une première analyse du cas. Celle-ci nous a permis de retirer des éléments essentiels sur le fonctionnement de l'agence afin de pouvoir établir un premier schéma. Premier schéma de type entité-association, qui, par la suite, se verra complété à l'aide des différents outils mis à notre disposition.\\
+
+Nous avons en premier lieu repéré une entité importante pour ce qui est de l'organisation de l'agence : les classes standards. Ces classes sont présentes afin de servir efficacement à la fois les propriétaires et les clients. Elles contiennent différentes informations permettant d'organiser efficacement les biens disponibles. On y retrouve : \begin{itemize}
+	\item Le code de la classe
+	\item Le type de bien représentés (appartement, maison, ou autre)
+	\item Le mode d'offre proposé : achat ou location
+	\item Le prix maximum d'achat ou de location
+	\item La superficie minimum du bien
+\end{itemize}
+Nous sommes donc partis selon le principe qu'un bien était une entité comprenant un identifiant, un statut (disponible, acheté, loué), une adresse, la date de soumission de ce bien au système, la date de disponibilité pour un client, le revenu cadastral, et bien sûr le prix qui en est demandé. Ce bien est lié par une association \textit{"fait partie"} à une entité \textit{classe standard}. Cette dernière étant elle-même associé aux entités \textit{type de bien} et \textit{mode d'offre}. En effet, nous avons trouvé plus simple d'extérioriser ces deux dernières entités dans un but purement pratique : éviter une redondance lors de la conception de la base de données dans la table \textit{classe standard}.\\
+
+Après analyse plus approfondie des caractéristiques spécifiques à un bien, nous avons remarqué que certaines informations supplémentaires étaient redondantes selon les classes standards dont font partie les différents bien. Nous avons donc choisi de rassembler les différents champs qu'il est possible de rencontrer en parcourant la totalité des classes standards. De ce fait, nous évitons une représentation avec une généralisation dont découlerait beaucoup trop de spécialisations. Les différents champs possibles se trouvent donc dans ce qui sera plus tard une table composée de champs optionnels. Ces champs étant plus tard complétés de manière sélective selon la classe standard attribuée au bien. Lors de cette première analyse, nous avons représenté cette table sous la forme de l'entité \textit{informations supplémentaires}. Cette entité contient les attributs (optionnels) suivants : 
+\begin{itemize}
+	\item Une description du bien, sous forme de texte libre, variant en contenu selon la classe standard attribuée à l'entité \textit{bien},
+	\item Une caution locative,
+	\item Le montant des charges, pour la location,
+	\item La superficie, dont les unités varient selon la classe du bien,
+	\item Un nombre de pièces,
+	\item Un nombre de chambres,
+	\item Un nombre de garages,
+	\item Un superficie, pour un éventuel jardin,
+	\item Le numéro de l'étage, pour un appartement ou studio.
+	\item La possibilité que le bien soit meublé,
+	\item S'il y a un ascenseur, dans le cas d'un bien dans un immeuble à étages,
+	\item S'il y a une cuisine équipée ou non,
+	\item Le nombre d'étages éventuel,
+	\item L'état du bien lorsqu'il est à vendre (non valable pour les terrains),
+	\item Le type de bail proposé lors des locations.\\
+\end{itemize}
+Comme nous l'avons fait précédemment pour le type de bien et le mode d'offre des classes standards, nous avons choisi d'externaliser l'état du bien ainsi que le type de bail en en faisant des entités à part entière. Ceci dans le même but qu'évoqué précédemment, éviter la redondance.\\
+
+A côté de ces entités relatives aux biens et à leur gestion, nous trouvons la gestion de personnes intervenant dans le cycle de vente/location de l'agence immobilière. Dans le document qui nous a été fourni, l'agence mentionne différents intervenants prenant place lors d'une transaction immobilière. Ceux-ci sont : 
+\begin{itemize}
+	\item Les propriétaires des biens,
+	\item Les clients cherchant un bien,
+	\item Les agents immobiliers, responsables des visites.\\
+\end{itemize}
+Ces différents intervenants ont des propriétés communes. En effet, ils sont tous représentés par un identifiant, un nom, un prénom et une adresse (rue, numéro, code postal, localité). De ce fait, nous avons choisi, dans notre premier schéma entité-association représentant la problématique, de mettre en place une généralisation. Nous avons généralisé la notion de personne en une entité \textit{personne} avec les attributs mentionnés ci-dessus. \textit{Propriétaire}, \textit{agent} et \textit{client} deviennent des entités spécialisées depuis \textit{personne}. Parmi ces entités spécialisée, seul \textit{client} dispose de deux attributs supplémentaire représentant le budget disponible, ainsi qu'une liste des caractéristiques recherchées dans un bien.\\
+
+Par ailleurs, chaque personne est joignable à l'aide d'éventuellement plusieurs numéros de téléphone (au moins un). De ce fait, il existe un entité \textit{téléphone} liée par une association à l'entité \textit{personne}. Cette entité contient comme attributs le numéro de téléphone, ainsi que les heures de disponibilités pour ce numéro sous forme de l'heure de début et celle de fin.\\
+
+Par la suite, nous avons établi qu'il existait différentes relations entre la partie concernant les bien et celle concernant les personnes. Un propriétaire, par défaut, est une personne qui met son bien à disposition pour la vente ou l'achat, ce via l'agence. Il existe donc une association entre l'entité \textit{propriétaire}, et l'entité \textit{bien}. Un agent s'occupe quant à lui de plusieurs visites de biens par des clients potentiels. Nous avons donc fait une association ternaire many to many entre les entités \textit{agent}, \textit{client} et \textit{bien}. Cette association contient également les attributs \textit{date} et \textit{heure}. Ceux-ci permettent de gérer un planning des visites.\\
+
+Le client, quant à lui, est un cas plus complexe. Outre son association à \textit{bien} et \textit{agent} au travers de la visite, il est associé à d'autres entités. Tout d'abord, l'agence conserve la liste des classes standard correspondant aux critères de recherche du client. Nous avons donc fait une association \textit{recherche} entre \textit{client} et \textit{classe standard}.  Ensuite, le client est intéressé par un certain nombre de biens. Or, ceux-ci ne représentent pas forcément la totalité des biens compris dans les classes standard sélectionnées. Nous avons donc établi une autre association, \textit{intéresse}, entre \textit{client} et \textit{bien}. Enfin, si un client choisit un bien parmi ceux qu'il a été visiter, il y a établissement d'un contrat de vente/location. Les termes du contrat pouvant spécifier un prix différent du prix initial, nous avons crée une entité \textit{contrat}. Celle-ci contient les attributs nécessaires : un identifiant de contrat, le prix définitif et la date de signature du contrat. Nous avons placé cette entité entre le client et le bien en réalisant l'association \textit{signe} entre \textit{client} et \textit{contrat}. Une seconde association, \textit{référence}, relie un contrat au bien qui le concerne.\\
+
+Pour finir, nous avons décidé de simplifier la notion d'adresse ainsi que celle de localité. Pour ce faire, \textit{adresse} et \textit{localité} sont devenues deux entités distinctes. L'entité \textit{adresse} se retrouve donc associé à la fois à \textit{personne} (qui habite à une adresse), et à \textit{bien} (qui est localisé à une adresse). Une adresse est également située à une localité. \textit{Localité} est associé à \textit{adresse}. \textit{Adresse} a pour attributs la rue et le numéro, et \textit{Localité} contient le code postal et le nom de la localité.
+
+% Expliquer les entités adresse et localité
+% Blablater le reste de la page sur les associations entre tout le bazar et le contrat
