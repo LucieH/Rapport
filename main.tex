@@ -17,6 +17,7 @@
 \usepackage{fancyhdr}
 \usepackage{lastpage} % Required to determine the last page for the footer
 \usepackage{extramarks} % Required for headers and footers
+\usepackage{longtable}
 
 \geometry{
 	body={160mm,250mm},
@@ -86,7 +87,7 @@ showstringspaces=false,
 \newpage
 \input{intro}
 \input{rappel}
-\input{analyse}
+\include{analyse}
 \input{fonction}
 \input{description}
 \input{conclusion}
