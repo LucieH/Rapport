@@ -5,7 +5,7 @@ Dans le cadre de la gestion de l'agence immobilière, nous avons pointé les gra
 Elles sont les suivantes :
 \begin{itemize}
 	\item l'ajout d'une personne,
-	\item la gestion d'un bien,
+	\item l'ajout d'un bien,
 	\item la gestion d'une demande d'un client,
 	\item la planification des visites,
 	\item la création de statistiques.
@@ -36,7 +36,7 @@ Acteur (service des demandes) & System\\
 6. Encode les numéros de téléphone  & 7. Enregistre les numéros de téléphone\\
 \hline
 \end{longtable}
-\subsubsection{La gestion d'un bien}
+\subsubsection{L'ajout d'un bien}
 Lorsqu'un propriétaire se présente à l'agence, il se rend auprès du service des demandes.
 Ce service commence par saisir les informations relatives à ce propriétaire.
 Ensuite, le système vérifie l'existence de ce propriétaire. S'il existe l'employé continue son travail en saisissant les informations relatives au bien. Dans le cas contraire, il commence tout d'abord par ajouter le propriétaire dans le système, pour ensuite saisir les informations relatives au bien.
@@ -85,7 +85,7 @@ Acteur (service des demandes)& System\\
 \end{longtable}
 
 \subsubsection{La planification des visites}
-Pour la gestion des plannings des visites, le service des visites reçoit les demandes de la part des clients.
+Pour la gestion du planning des visites, le service des visites reçoit les demandes de la part des clients.
 Les clients se présentent avec la liste des biens qu'ils ont sélectionnés au préalable avec le service des demandes.
 Cette liste est analysée par les employés du service des visites. L'un des employés interroge le système d'information pour obtenir des informations plus détaillées sur les biens. Un autre employé interroge le système afin d'obtenir les photos des différents biens.
 À l'aide les photos et les informations détaillées, le client opère un deuxième tri avec le service des visites. À le fin de ce tri, l'employé supprime de la liste du client les biens non-désirés.
@@ -107,6 +107,30 @@ Acteur (service des visites)& System\\
 8. Enregistre un responsable pour chaque visite & 9. Enregistre l'information sur le responsable\\
 \hline
 \end{longtable}
+
+\subsubsection{L'établissement d'un contrat}
+Lorsqu'un client a trouvé un bien disponible qui l'intéresse, il se présente au service des demandes pour établir le contrat. Au préalable, le propriétaire a été prévenu et est présent. 
+Le client, le propriétaire et l'employé discutent des détails du contrat.
+Quand le termes sont acceptés par toutes les parties, l'employé encode dans le système les informations sur le contrat.
+Il encode les identifiants du propriétaire et du client, le montant de la vente ou le loyer selon le bien.
+Pour une location, il encode aussi la durée du bail.
+L'employé imprime les contrats sur papier et les fait signer par le propriétaire et le client.
+Il encode finalement la date de signature et le système modifie la disponibilité du bien.
+Le bien vendu ou loué n'est plus disponible pour les autres clients. Nous effectuons une suppression logique.
+
+\subsubsection*{Tableau récapitulatif}
+\begin{longtable}{|p{7.5cm}|p{7.5cm}|}
+\hline
+Acteur (service des demandes)& System\\
+\hline
+1. Encode les identifiants du client et du propriétaire & \\
+2. Encode le montant de le vente ou de location plus le bail, et la date de signature & 3. Enregistre les informations\\
+4. Imprime les contrats & \\
+5. Enregistre le contrat \\
+& 7. Modifie la disponibilité du bien\\
+\hline
+\end{longtable}
+
 \subsubsection{La création des statistiques}
 Les statistiques sur les demandes sont générées automatiquement par le système en fin de semaine ou après cent nouvelles demandes.
 Elles reprennent divers informations concernant les demandes. Ces informations seront à détailler par la suite.
@@ -122,7 +146,7 @@ Acteur (service des demandes)& System\\
 \hline
 \end{longtable}
 
-\newpage
+\mbox{}
 \subsubsection{Schéma récapitulatif}
 Après avoir établi les scénarios précédents, nous avons réalisé un schéma récapitulant les fonctionnalités principales ainsi que les acteurs intervenants. Voici ce schéma :
 
